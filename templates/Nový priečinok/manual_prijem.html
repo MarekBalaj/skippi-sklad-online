@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <title>Príjem na sklad</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      text-align: center;
+      padding-top: 50px;
+    }
+    .option-button {
+      display: block;
+      width: 300px;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 12px;
+      border: 2px solid orange;
+      background-color: #fff1dc;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      color: black;
+      cursor: pointer;
+    }
+    .option-button:hover {
+      background-color: orange;
+      color: white;
+    }
+    a {
+      text-decoration: none;
+    }
+    #search_form {
+      display: none;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 250px;
+      border: 2px solid orange;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      background-color: orange;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    table {
+      margin: 30px auto;
+      border-collapse: collapse;
+      width: 90%;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #ffe0b2;
+    }
+    tbody tr {
+      background-color: #fffdf6;
+      transition: background-color 0.3s;
+    }
+    tbody tr:hover {
+      background-color: #fff3e0;
+    }
+    .toggle-button {
+      cursor: pointer;
+      font-weight: bold;
+      color: orange;
+    }
+    .detail-box {
+      display: none;
+      margin-top: 5px;
+      font-size: 13px;
+      background-color: #fff8ee;
+      border: 1px solid orange;
+      padding: 8px;
+      border-radius: 8px;
+    }
+    .highlighted {
+      outline: 2px solid orange;
+      background-color: #ffeccc !important;
+    }
+  </style>
+  <script>
+    function showSearchForm() {
+      document.getElementById("search_form").style.display = "block";
+      var buttons = document.getElementById("buttons");
+      if (buttons) {
+        buttons.style.display = "none";
+      }
+    }
+
+    window.onload = function () {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("show") === "1") {
+        showSearchForm();
+      }
+    };
+
+    function toggleDetails(index) {
+      const box = document.getElementById("detail" + index);
+      const icon = document.getElementById("icon" + index);
+      const row = document.getElementById("row" + index);
+
+      const isOpen = box.style.display === 'block';
+
+      document.querySelectorAll('.detail-box').forEach(b => b.style.display = 'none');
+      document.querySelectorAll('.toggle-icon').forEach(i => i.innerText = '▶');
+      document.querySelectorAll('tr').forEach(r => r.classList.remove('highlighted'));
+
+      if (!isOpen) {
+        box.style.display = 'block';
+        icon.innerText = '▼';
+        row.classList.add('highlighted');
+      }
+    }
+  </script>
+</head>
+<body>
+
+  <div id="buttons">
+    <a href="{{ url_for('qr_prijem') }}">
+      <div class="option-button">📷 Načítať QR kód</div>
+    </a>
+
+    <div class="option-button" onclick="showSearchForm()">✍️ Ručne vyhľadať produkt</div>
+  </div>
+
+  <div id="search_form">
+    <h3>Vyhľadajte produkt podľa názvu</h3>
+    <form method="POST" action="{{ url_for('manual_prijem') }}">
+      <input type="text" name="produkt_filter" placeholder="Zadajte názov produktu" required>
+      <button type="submit">Vyhľadať</button>
+    </form>
+  </div>
+
+  {% if produkty %}
+    <h3>Výsledky vyhľadávania:</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Názov produktu</th>
+          <th>Farba / Dekor</th>
+          <th>Sklad</th>
+          <th>Uloženie</th>
+          <th>Rad</th>
+          <th>Množstvo</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for produkt in produkty %}
+          <tr id="row{{ loop.index }}">
+            <td>{{ produkt['Názov produktu'] }}</td>
+            <td>{{ produkt['Farba / Dekor'] }}</td>
+            <td>{{ produkt['Sklad'] }}</td>
+            <td>{{ produkt['Uloženie'] }}</td>
+            <td>{{ produkt['Rad'] }}</td>
+            <td>{{ produkt['Množstvo'] }}</td>
+            <td class="toggle-button" onclick="toggleDetails({{ loop.index }})">
+              <span id="icon{{ loop.index }}" class="toggle-icon">▶</span>
+              <div id="detail{{ loop.index }}" class="detail-box">
+                {% for key, value in produkt.items() %}
+                  {% if key not in ['Názov produktu', 'Farba / Dekor', 'Sklad', 'Uloženie', 'Rad', 'Množstvo'] %}
+                    <div><strong>{{ key }}:</strong> {{ value }}</div>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+
+</body>
+</html>

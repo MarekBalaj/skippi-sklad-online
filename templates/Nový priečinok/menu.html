@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <title>Menu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      text-align: center;
+      padding-top: 50px;
+    }
+    h2 {
+      font-size: 30px;
+      margin-bottom: 30px;
+    }
+    .menu-button {
+      display: block;
+      width: 300px;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 12px;
+      border: 2px solid orange;
+      background-color: #fff1dc;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      color: black;
+      cursor: pointer;
+    }
+    .menu-button:hover {
+      background-color: orange;
+      color: white;
+    }
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>Vitaj, {{ meno }}!</h2>
+
+  <a href="{{ url_for('prijem') }}">
+    <div class="menu-button">Príjem na sklad</div>
+  </a>
+  <a href="{{ url_for('hľadanie') }}">
+    <div class="menu-button">Hľadanie</div>
+  </a>
+  <a href="{{ url_for('vydaj') }}">
+    <div class="menu-button">Výdaj zo skladu</div>
+  </a>
+  <a href="{{ url_for('kamiony') }}">
+    <div class="menu-button">Kamióny</div>
+  </a>
+</body>
+</html>

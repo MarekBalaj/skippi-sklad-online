@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <title>Príjem na sklad</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      text-align: center;
+      padding: 30px 10px;
+      margin: 0;
+    }
+    h2 {
+      font-size: 26px;
+      margin-bottom: 30px;
+    }
+    .option-button {
+      display: block;
+      width: 90%;
+      max-width: 350px;
+      margin: 10px auto;
+      padding: 15px;
+      border-radius: 15px;
+      border: 2px solid orange;
+      background-color: #fff1dc;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      color: black;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .option-button:hover {
+      background-color: orange;
+      color: white;
+    }
+    a {
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Vyber spôsob príjmu na sklad</h2>
+
+  <a href="{{ url_for('qr_prijem') }}">
+    <div class="option-button">📷 Načítať QR kód</div>
+  </a>
+
+  <a href="{{ url_for('manual_prijem') }}?show=1">
+    <div class="option-button">✍️ Ručne vyhľadať produkt</div>
+  </a>
+
+</body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <title>QR Príjem</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 20px 10px;
+      background-color: #f9f9f9;
+    }
+    h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+    #reader {
+      width: 100%;
+      max-width: 320px;
+      margin: 0 auto;
+      border: 2px solid orange;
+      border-radius: 12px;
+      background-color: #fff1dc;
+      padding: 10px;
+    }
+    .result-box {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: green;
+      padding: 10px;
+      background-color: #eaffea;
+      border-radius: 10px;
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Naskenuj QR kód</h2>
+
+  <div id="reader"></div>
+  <div class="result-box" id="result">Výsledok sa zobrazí tu...</div>
+
+  <script>
+    function onScanSuccess(decodedText, decodedResult) {
+        document.getElementById('result').innerText = `Načítaný QR kód: ${decodedText}`;
+        // Tu môžeš neskôr pridať redirect alebo AJAX na spracovanie
+    }
+
+    const html5QrCode = new Html5Qrcode("reader");
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+    Html5Qrcode.getCameras().then(cameras => {
+        if (cameras && cameras.length) {
+            html5QrCode.start(
+                { facingMode: "environment" },
+                config,
+                onScanSuccess
+            );
+        } else {
+            document.getElementById('result').innerText = "Nebola nájdená žiadna kamera.";
+        }
+    }).catch(err => {
+        document.getElementById('result').innerText = `Chyba: ${err}`;
+    });
+  </script>
+
+</body>
+</html>

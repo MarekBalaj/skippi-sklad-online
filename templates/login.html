@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <title>Prihlásenie</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      width: 90%;
+      max-width: 400px;
+      background: #fff3e0;
+      border: 3px solid #ff9800;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 26px;
+      margin-bottom: 20px;
+    }
+
+    select,
+    input[type="password"],
+    input[type="submit"] {
+      width: 100%;
+      padding: 14px;
+      margin: 12px 0;
+      font-size: 18px;
+      border-radius: 12px;
+      border: 2px solid #ff9800;
+      background-color: #fff3e0;
+    }
+
+    input[type="submit"] {
+      background-color: #ff9800;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #e68900;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h2>Prihlásenie</h2>
+    <form method="POST">
+      <select name="meno" required>
+        <option value="" disabled selected>Vyber používateľa</option>
+        <option value="Viskup Peter">Viskup Peter</option>
+        <option value="Hollý Patrik">Hollý Patrik</option>
+        <option value="Ostružlík Rastislav">Ostružlík Rastislav</option>
+      </select>
+      <input type="password" name="heslo" placeholder="Heslo" required>
+      <input type="submit" value="Prihlásiť sa">
+    </form>
+  </div>
+
+</body>
+</html>
